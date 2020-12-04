@@ -185,3 +185,12 @@ product_params =  [
   {name: "玉ねぎ", price: 300},
   {name: "なす", price: 400}
 ]
+
+# productsにproduct_paramsの各要素から生成した Productクラスのインスタンスを入れていく
+# products = []
+# product_params.each do |param|
+#   products << product.new(param)
+# end
+
+# mapメソッドを使用して商品インスタンスを作成
+products = product_params.map {|param| Product.new(param)}
