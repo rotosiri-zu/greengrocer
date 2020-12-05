@@ -95,7 +95,7 @@
 
 #  メソッド part2
 
-require "./methods.rb"
+# require "./methods.rb"
 
 # # 商品データ
 # products = [
@@ -179,18 +179,69 @@ require "./methods.rb"
 
 # 八百屋プログラム（クラス）part3
 
-product_params =  [
+class Product
+  # (1)@name、@priceをクラスの外から参照可能にする
+  # (3)attr_readerに@idを追加
+  attr_reader :id, :name, :price
+  # (1)クラス変数を定義
+  @@count = 30
+  def initialize(product_params)
+    # (2)インスタンスを生成するごとにプラス1
+    @id = @@count += 1
+    @name = product_params[:name]
+    @price = product_params[:price]
+  end
+end  
+
+# Greengrocerクラスを定義
+class Greengrocer
+  # 八百屋の開店と同時に商品インスタンスを生成
+  # 仮引数はproduct_params
+  def initialize(product_params)
+    @products = []
+    product_params.each do |param|
+    @products << Product.new(param)
+    end
+  end
+
+   # (2)product.name、product.priceと書くことで参照
+  # （eachメソッドを使用しているため単数形になっている）
+  # (4).with_index(1)を外し、idを利用した形にする
+  def disp_products
+    puts "いらっしゃいませ！商品を選んで下さい。"
+    @products.each.with_index(1) do |product,i|
+      puts "#{product.id}.#{product.name}" "（¥#{product.price}円）"
+    end
+  end
+end
+
+product_params1 =  [
   {name: "トマト", price: 100},
   {name: "きゅうり", price: 200},
   {name: "玉ねぎ", price: 300},
   {name: "なす", price: 400}
 ]
 
-# productsにproduct_paramsの各要素から生成した Productクラスのインスタンスを入れていく
+# 八百屋2の商品データ（★ここを追加★）
+product_params2 = [
+  {name: "パセリ", price: 100},
+  {name: "ブロッコリー", price: 150}
+]
+
+# 商品のインスタンスを生成（削除してGreengrocerクラスの中で行う）
 # products = []
 # product_params.each do |param|
-#   products << product.new(param)
+#   products << Product.new(param)
 # end
 
 # mapメソッドを使用して商品インスタンスを作成
-products = product_params.map {|param| Product.new(param)}
+# products = product_params.map {|param| Product.new(param)}
+
+# 八百屋の開店（Greengrocerクラスのインスタンスを生成）
+# 実引数はそれぞれproduct_params1、product_params2
+Greengrocer1 = Greengrocer.new(product_params1)
+Greengrocer2 = Greengrocer.new(product_params2)
+
+# 商品を表示
+Greengrocer1.disp_products
+Greengrocer2.disp_products
