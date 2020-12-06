@@ -199,14 +199,22 @@ class Greengrocer
   # 仮引数はproduct_params
   def initialize(product_params)
     @products = []
+    register_product(product_params)
+  end
+
+  # 商品を登録するメソッドを定義
+  # 仮引数とメソッド内の変数をadding_productsからproduct_paramsに変更
+  # 商品を登録
+  def register_product(product_params)
     product_params.each do |param|
-    @products << Product.new(param)
-    end
+      @products << Product.new(param)
+    end  
   end
 
    # (2)product.name、product.priceと書くことで参照
   # （eachメソッドを使用しているため単数形になっている）
   # (4).with_index(1)を外し、idを利用した形にする
+  # 商品を表示
   def disp_products
     puts "いらっしゃいませ！商品を選んで下さい。"
     @products.each.with_index(1) do |product,i|
@@ -215,6 +223,7 @@ class Greengrocer
   end
 end
 
+# 八百屋1の商品データ
 product_params1 =  [
   {name: "トマト", price: 100},
   {name: "きゅうり", price: 200},
@@ -223,10 +232,10 @@ product_params1 =  [
 ]
 
 # 八百屋2の商品データ（★ここを追加★）
-product_params2 = [
-  {name: "パセリ", price: 100},
-  {name: "ブロッコリー", price: 150}
-]
+# product_params2 = [
+#   {name: "パセリ", price: 100},
+#   {name: "ブロッコリー", price: 150}
+# ]
 
 # 商品のインスタンスを生成（削除してGreengrocerクラスの中で行う）
 # products = []
@@ -239,9 +248,19 @@ product_params2 = [
 
 # 八百屋の開店（Greengrocerクラスのインスタンスを生成）
 # 実引数はそれぞれproduct_params1、product_params2
+# product_params1 の商品を持つ八百屋の開店
 Greengrocer1 = Greengrocer.new(product_params1)
-Greengrocer2 = Greengrocer.new(product_params2)
+# Greengrocer2 = Greengrocer.new(product_params2)
+
+# 追加商品データadding_products1を定義
+adding_products1 = [
+  {name: "ごぼう", price: 250},
+  {name: "れんこん", price: 350}
+]
+
+# 商品を登録（adding_products1 の商品を追加）
+Greengrocer1.register_product(adding_products1)
 
 # 商品を表示
 Greengrocer1.disp_products
-Greengrocer2.disp_products
+# Greengrocer2.disp_products
