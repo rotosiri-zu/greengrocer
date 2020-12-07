@@ -223,10 +223,17 @@ class Greengrocer
       puts "#{product.id}.#{product.name}" "（¥#{product.price}円）"
     end
   end
+
+  # (2)(3)「個数を質問する」メソッドを定義、引数とコードを調整
+  def ask_quantity(chosen_product)
+    puts "#{chosen_product.name}ですね。何個買いますか？"
+  end  
 end
 
 # Userクラスを定義（
 class User
+  # (1)「選んだ商品」をクラス外から参照可能にする
+  attr_reader :chosen_product
   # (2)「商品を選択する」メソッドを追加（仮引数を設定）
   def choose_product(products)
     while true
@@ -285,3 +292,5 @@ Greengrocer1.disp_products
 # Greengrocer2.disp_products
 # (2)商品を選択するメソッドを呼び出し（実引数を設定）
 user.choose_product(Greengrocer1.products)
+# (3)引数を設定し、「個数を質問する」メソッドを呼び出す
+Greengrocer1.ask_quantity(user.chosen_product)
