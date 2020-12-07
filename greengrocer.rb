@@ -197,6 +197,8 @@ end
 class Greengrocer
   # 八百屋の開店と同時に商品インスタンスを生成
   # 仮引数はproduct_params
+  # (1)クラスの外から参照可能にする
+  attr_reader :products
   def initialize(product_params)
     @products = []
     register_product(product_params)
@@ -217,10 +219,24 @@ class Greengrocer
   # 商品を表示
   def disp_products
     puts "いらっしゃいませ！商品を選んで下さい。"
-    @products.each.with_index(1) do |product,i|
+    @products.each do |product|
       puts "#{product.id}.#{product.name}" "（¥#{product.price}円）"
     end
   end
+end
+
+# Userクラスを定義（
+class User
+  # (2)「商品を選択する」メソッドを追加（仮引数を設定）
+  def choose_product(products)
+    while true
+      print "商品の番号を選択 > "
+      select_product_num = gets.to_i
+      @chosen_product = products.find{|product| product.id == select_product_num}
+      break if !@chosen_product.nil?
+      puts "#{products.first.id}から#{products.last.id}の番号から選んでください"
+    end
+  end  
 end
 
 # 八百屋1の商品データ
@@ -261,6 +277,11 @@ adding_products1 = [
 # 商品を登録（adding_products1 の商品を追加）
 Greengrocer1.register_product(adding_products1)
 
+# お客さんの来店（Userクラスのインスタンスを生成）
+user = User.new
+
 # 商品を表示
 Greengrocer1.disp_products
 # Greengrocer2.disp_products
+# (2)商品を選択するメソッドを呼び出し（実引数を設定）
+user.choose_product(Greengrocer1.products)
